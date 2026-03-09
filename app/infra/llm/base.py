@@ -10,7 +10,7 @@ class BaseLLMProvider(ABC):
     """
 
     @abstractmethod
-    async def async_chat(self, query: str) -> str:
+    async def async_chat(self, query: str, system_prompt: str = None) -> str:
         """对话接口"""
         pass
 

@@ -1,3 +1,4 @@
+# app/core/constants.py
 from enum import IntEnum
 
 

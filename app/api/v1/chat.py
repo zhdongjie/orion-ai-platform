@@ -3,15 +3,17 @@ from fastapi import APIRouter, HTTPException
 
 # 注意这里：把 async_embed 也引入进来
 from app.infra.llm import llm_client
+from app.schemas import Result
+from app.schemas.chat import ChatRequest, ChatResponse
+from app.services.chat_service import chat_service
 
 router = APIRouter()
 
 
 @router.post("", summary="基础对话接口")
-async def chat_api(query: str):
+async def chat_api(request: ChatRequest) -> Result[ChatResponse]:
     try:
-        answer = await llm_client.async_chat(query)
-        return answer
+        return await chat_service.chat(request)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"LLM 调用失败: {str(e)}")
 

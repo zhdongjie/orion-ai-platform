@@ -3,6 +3,8 @@ import os
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+
 
 class Settings(BaseSettings):
     # ===============================
@@ -15,6 +17,8 @@ class Settings(BaseSettings):
     APP_PORT: int = Field(default=8000)
     API_PREFIX: str = Field(default="/v1")
     ENVIRONMENT: str = Field(default="dev")
+    LOG_LEVEL: str = Field(default="INFO", description="日志级别: DEBUG, INFO, WARNING, ERROR")
+    LOG_DIR: str = Field(default="logs", description="日志存放目录")
 
     # ===============================
     # LLM 配置
@@ -38,7 +42,7 @@ class Settings(BaseSettings):
     # ===============================
     QWEN_API_KEY: str = Field(..., description="Qwen AI API Key")
     QWEN_API_BASE: str = Field(
-        default="https://dashscope.aliyuncs.com/compatible-mode/v1", 
+        default="https://dashscope.aliyuncs.com/compatible-mode/v1",
         description="Qwen API base url"
     )
     QWEN_MODEL_LLM: str = Field(default="qwen-plus", description="Chat model")
@@ -50,7 +54,7 @@ class Settings(BaseSettings):
     # ===============================
     model_config = SettingsConfigDict(
         # 自动向上寻找项目根目录下的 .env 文件
-        env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env"),
+        env_file=os.path.join(ROOT_DIR, ".env"),
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore"  # 忽略多余的环境变量
