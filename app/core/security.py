@@ -21,7 +21,7 @@ async def verify_internal_token(api_key: str = Security(api_key_header)):
             content=Result.unauthorized().dict()
         )
 
-    if not secrets.compare_digest(api_key, settings.API_SECRET_KEY):
+    if not secrets.compare_digest(api_key, settings.ZHIPU_API_KEY):
         return JSONResponse(
             status_code=200,
             content=Result.forbidden().dict()

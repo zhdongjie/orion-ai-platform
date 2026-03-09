@@ -1,4 +1,3 @@
-# app/core/config.py
 import os
 
 from pydantic import Field
@@ -18,6 +17,11 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = Field(default="dev")
 
     # ===============================
+    # LLM 配置
+    # ===============================
+    LLM_PROVIDER: str = Field(default="qwen", description="当前使用的LLM提供商")
+
+    # ===============================
     # LLM / 智谱 配置
     # ===============================
     ZHIPU_API_KEY: str = Field(..., description="Zhipu AI API Key")
@@ -26,8 +30,20 @@ class Settings(BaseSettings):
         description="Zhipu API base url"
     )
     ZHIPU_MODEL_GLM: str = Field(default="glm-4-flash", description="Chat model")
-    ZHIPU_MODEL_EMBEDDING: str = Field(default="glm-embedding-6b", description="Embedding model")
+    ZHIPU_MODEL_EMBEDDING: str = Field(default="embedding-2", description="Embedding model")
     ZHIPU_EMBEDDING_DIM: int = Field(default=4096, description="Embedding vector dimension")
+
+    # ===============================
+    # LLM / 千问 配置
+    # ===============================
+    QWEN_API_KEY: str = Field(..., description="Qwen AI API Key")
+    QWEN_API_BASE: str = Field(
+        default="https://dashscope.aliyuncs.com/compatible-mode/v1", 
+        description="Qwen API base url"
+    )
+    QWEN_MODEL_LLM: str = Field(default="qwen-plus", description="Chat model")
+    QWEN_MODEL_EMBEDDING: str = Field(default="text-embedding-v3", description="Embedding model")
+    QWEN_EMBEDDING_DIM: int = Field(default=1024, description="Embedding vector dimension")
 
     # ===============================
     # Settings 行为配置

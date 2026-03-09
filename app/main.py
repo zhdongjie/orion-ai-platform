@@ -28,3 +28,14 @@ async def health_check():
         "project": settings.APP_NAME,
         "env": settings.ENVIRONMENT
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "app.main:app",  # 注意这里必须是字符串形式
+        host=settings.APP_HOST,
+        port=settings.APP_PORT,
+        reload=settings.ENVIRONMENT == "dev",  # 如果是开发环境则开启热更新
+    )
