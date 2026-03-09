@@ -10,7 +10,7 @@ from app.core.security import verify_internal_token
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_):
     # 启动前执行：初始化日志
     setup_logging()
     logger.info("系统正在启动...")
