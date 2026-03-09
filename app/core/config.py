@@ -1,0 +1,44 @@
+# app/core/config.py
+import os
+
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    # ===============================
+    # 应用基础配置
+    # ===============================
+    APP_NAME: str = Field(default="Orion AI Platform Server", description="项目名称")
+    APP_VERSION: str = Field(default="1.0.0")
+    APP_DESCRIPTION: str = Field(default="")
+    APP_HOST: str = Field(default="127.0.0.1")
+    APP_PORT: int = Field(default=8000)
+    API_PREFIX: str = Field(default="/v1")
+    ENVIRONMENT: str = Field(default="dev")
+
+    # ===============================
+    # LLM / 智谱 配置
+    # ===============================
+    ZHIPU_API_KEY: str = Field(..., description="Zhipu AI API Key")
+    ZHIPU_API_BASE: str = Field(
+        default="https://open.bigmodel.cn/api/paas/v4",
+        description="Zhipu API base url"
+    )
+    ZHIPU_MODEL_GLM: str = Field(default="glm-4-flash", description="Chat model")
+    ZHIPU_MODEL_EMBEDDING: str = Field(default="glm-embedding-6b", description="Embedding model")
+    ZHIPU_EMBEDDING_DIM: int = Field(default=4096, description="Embedding vector dimension")
+
+    # ===============================
+    # Settings 行为配置
+    # ===============================
+    model_config = SettingsConfigDict(
+        # 自动向上寻找项目根目录下的 .env 文件
+        env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env"),
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+        extra="ignore"  # 忽略多余的环境变量
+    )
+
+
+settings = Settings()
