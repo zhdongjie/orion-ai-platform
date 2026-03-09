@@ -1,3 +1,4 @@
+# app/core/security.py
 import secrets
 
 from fastapi import Security

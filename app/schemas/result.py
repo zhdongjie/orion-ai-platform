@@ -1,3 +1,4 @@
+# app/schemas/result.py
 from typing import TypeVar, Generic, Optional
 
 from pydantic import Field
@@ -40,3 +41,8 @@ class Result(BaseSchema, Generic[T]):
     def fatal(cls, msg: str = "system error"):
         """系统级错误返回"""
         return cls(code=ResponseCode.SYSTEM_ERROR.value, msg=msg, data=None)
+
+    @classmethod
+    def fail(cls, code: int, msg: str):
+        """通用的失败返回，支持传入自定义 code"""
+        return cls(code=code, msg=msg, data=None)

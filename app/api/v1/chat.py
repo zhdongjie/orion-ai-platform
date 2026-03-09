@@ -1,7 +1,6 @@
 # app/api/v1/chat.py
 from fastapi import APIRouter, HTTPException
 
-# 注意这里：把 async_embed 也引入进来
 from app.infra.llm import llm_client
 from app.schemas import Result
 from app.schemas.chat import ChatRequest, ChatResponse
@@ -10,7 +9,7 @@ from app.services.chat_service import chat_service
 router = APIRouter()
 
 
-@router.post("", summary="基础对话接口")
+@router.post("", summary="基础对话接口", response_model=Result[ChatResponse])
 async def chat_api(request: ChatRequest) -> Result[ChatResponse]:
     try:
         return await chat_service.chat(request)

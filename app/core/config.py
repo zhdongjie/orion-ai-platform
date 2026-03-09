@@ -1,3 +1,4 @@
+# app/core/config.py
 import os
 
 from pydantic import Field

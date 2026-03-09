@@ -1,5 +1,5 @@
 # app/core/exceptions.py
-from typing import Optional
+from typing import Optional, Union
 
 from app.core.constants import ResponseCode
 
@@ -9,15 +9,18 @@ class AppException(Exception):
     Orion 平台基础异常类
     所有业务自定义异常都应继承此类
     """
+    msg: str
+    code: int
+    data: Optional[dict]
 
     def __init__(
             self,
             msg: str,
-            code: ResponseCode = ResponseCode.SYSTEM_ERROR,
+            code: Union[ResponseCode, int] = ResponseCode.SYSTEM_ERROR,
             data: Optional[dict] = None
     ):
         self.msg = msg
-        self.code = code.value  # 提取枚举中的 5 位数整数值
+        self.code = code.value
         self.data = data
         super().__init__(msg)
 
