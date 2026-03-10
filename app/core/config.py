@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     LOG_DIR: str = Field(default="logs", description="日志存放目录")
 
     # ===============================
+    # PostgreSQL / pgvector
+    # ===============================
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: int = 5432
+
+    # ===============================
     # LLM 配置
     # ===============================
     LLM_PROVIDER: str = Field(default="qwen", description="当前使用的LLM提供商")
@@ -49,6 +58,16 @@ class Settings(BaseSettings):
     QWEN_MODEL_LLM: str = Field(default="qwen-plus", description="Chat model")
     QWEN_MODEL_EMBEDDING: str = Field(default="text-embedding-v3", description="Embedding model")
     QWEN_EMBEDDING_DIM: int = Field(default=1024, description="Embedding vector dimension")
+
+    @property
+    def POSTGRES_URL(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.POSTGRES_USER}:"
+            f"{self.POSTGRES_PASSWORD}@"
+            f"{self.POSTGRES_HOST}:"
+            f"{self.POSTGRES_PORT}/"
+            f"{self.POSTGRES_DB}"
+        )
 
     # ===============================
     # Settings 行为配置
