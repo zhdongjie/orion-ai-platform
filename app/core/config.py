@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     # LLM 配置
     # ===============================
     LLM_PROVIDER: str = Field(default="qwen", description="当前使用的LLM提供商")
+    LLM_TIMEOUT: int = Field(default=60)
 
     # ===============================
     # LLM / 智谱 配置

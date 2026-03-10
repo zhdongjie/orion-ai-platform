@@ -27,4 +27,7 @@ class ChatSession(
     title: Optional[str] = Field(default="新对话")
 
     # 关联消息
-    messages: List["ChatMessage"] = Relationship(back_populates="session")
+    messages: List["ChatMessage"] = Relationship(
+        back_populates="session",
+        sa_relationship_kwargs={"cascade": "all, delete-orphan"}
+    )

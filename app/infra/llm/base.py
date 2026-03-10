@@ -2,6 +2,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 
+from langchain_core.messages import BaseMessage, AIMessage
+
 
 class BaseLLMProvider(ABC):
     """
@@ -10,8 +12,8 @@ class BaseLLMProvider(ABC):
     """
 
     @abstractmethod
-    async def async_chat(self, query: str, system_prompt: str = None) -> str:
-        """对话接口"""
+    async def async_chat(self, messages: List[BaseMessage]) -> AIMessage:
+        """聊天接口"""
         pass
 
     @abstractmethod

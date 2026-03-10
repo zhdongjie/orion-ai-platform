@@ -1,5 +1,5 @@
 # app/core/constants.py
-from enum import IntEnum
+from enum import IntEnum, Enum
 
 
 class ResponseCode(IntEnum):
@@ -8,3 +8,10 @@ class ResponseCode(IntEnum):
     UNAUTHORIZED = 40100  # 未授权
     FORBIDDEN = 40300  # 无权限
     SYSTEM_ERROR = 50000  # 系统异常
+
+
+class MessageRole(str, Enum):
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+    TOOL = "tool"
