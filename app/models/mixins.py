@@ -1,24 +1,21 @@
 # app/models/mixins.py
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
-from sqlalchemy import DateTime
 from sqlmodel import Field, SQLModel
 
 
 class TimestampMixin(SQLModel, table=False):
     created_at: datetime = Field(
-        default_factory=lambda: datetime.now(),
-        nullable=False,
-        sa_type=DateTime
+        default_factory=lambda: datetime.now(timezone.utc),
+        nullable=False
     )
 
     updated_at: datetime = Field(
-        default_factory=lambda: datetime.now(),
+        default_factory=lambda: datetime.now(timezone.utc),
         nullable=False,
-        sa_type=DateTime,
-        sa_column_kwargs={"onupdate": lambda: datetime.now()}
+        sa_column_kwargs={"onupdate": lambda: datetime.now(timezone.utc)}
     )
 
 

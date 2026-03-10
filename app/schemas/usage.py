@@ -7,7 +7,6 @@ from app.schemas import BaseSchema
 
 
 class Usage(BaseSchema):
-
     prompt_tokens: Optional[int] = Field(
         default=None,
         description="Prompt Token"

@@ -1,5 +1,5 @@
 # app/api/v1/chat.py
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from app.infra.llm import llm_client
 from app.schemas import Result
@@ -11,20 +11,17 @@ router = APIRouter()
 
 @router.post("", summary="基础对话接口", response_model=Result[ChatResponse])
 async def chat_api(request: ChatRequest) -> Result[ChatResponse]:
-    try:
-        return await chat_service.chat(request)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"LLM 调用失败: {str(e)}")
+    return await chat_service.chat(request)
 
 
-@router.get("/embed", summary="测试文本向量化")
-async def test_embedding(text: str = "测试文本"):
-    try:
-        vector = await llm_client.async_embed(text)
-        return {
+@router.get("/embed", summary="测试文本向量化", response_model=Result)
+async def test_embedding(text: str = "测试文本") -> Result:
+    vector = await llm_client.async_embed(text)
+
+    return Result.success(
+        {
             "text": text,
-            "dimension": len(vector),  # 验证维度是否为我们配置的 4096
-            "preview": vector[:5]  # 只预览前 5 个浮点数
+            "dimension": len(vector),
+            "preview": vector[:5]
         }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Embedding 调用失败: {str(e)}")
+    )

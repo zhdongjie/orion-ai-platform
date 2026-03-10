@@ -33,11 +33,6 @@ class Result(BaseSchema, Generic[T]):
         return cls(code=ResponseCode.FORBIDDEN.value, msg="Could not validate credentials", data=None)
 
     @classmethod
-    def error(cls, data: T = None, msg: str = "answer error"):
-        """回答错误时的返回 (40000)"""
-        return cls(code=ResponseCode.ANSWER_ERROR.value, msg=msg, data=data)
-
-    @classmethod
     def fatal(cls, msg: str = "system error"):
         """系统级错误返回"""
         return cls(code=ResponseCode.SYSTEM_ERROR.value, msg=msg, data=None)

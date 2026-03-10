@@ -29,10 +29,10 @@ class BusinessException(AppException):
     """
     通用业务逻辑异常
     例如：信用卡额度校验失败、参数非法等
-    默认状态码: ANSWER_ERROR (40000)
+    默认状态码: SYSTEM_ERROR (50000)
     """
 
-    def __init__(self, msg: str, code: ResponseCode = ResponseCode.ANSWER_ERROR):
+    def __init__(self, msg: str, code: ResponseCode = ResponseCode.SYSTEM_ERROR):
         super().__init__(msg, code=code)
 
 
@@ -40,11 +40,11 @@ class LLMProviderException(AppException):
     """
     大模型提供商调用异常
     例如：API Key 过期、模型欠费、请求超时、模型不存在等
-    默认状态码: ANSWER_ERROR (40000)
+    默认状态码: SYSTEM_ERROR (50000)
     """
 
     def __init__(self, msg: str):
-        super().__init__(msg, code=ResponseCode.ANSWER_ERROR)
+        super().__init__(msg, code=ResponseCode.SYSTEM_ERROR)
 
 
 class PromptException(AppException):

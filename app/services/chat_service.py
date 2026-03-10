@@ -1,12 +1,13 @@
 # app/services/chat_service.py
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 from uuid import UUID
 
 from loguru import logger
 from sqlmodel import select, desc
 
-from app.core.exceptions import PromptException, LLMProviderException
+from app.core.constants import ResponseCode
+from app.core.exceptions import PromptException, LLMProviderException, BusinessException
 from app.infra.db.pgsql import async_session_maker
 from app.infra.llm import llm_client
 from app.models.chat.chat_message import ChatMessage
@@ -70,7 +71,7 @@ async def _save_message_to_db(session_id: UUID, role: str, content: str):
         session_result = await db.execute(statement)
         session = session_result.scalar_one_or_none()
         if session:
-            session.updated_at = datetime.now()
+            session.updated_at = datetime.now(timezone.utc)
             db.add(session)
 
         await db.commit()
@@ -85,7 +86,8 @@ class ChatService:
         集成了持久化和历史记录加载的对话服务
         """
         logger.info(f"开始处理对话请求: {request.query[:20]}...")
-
+        if not request.content:
+            raise BusinessException("聊天内容不能为空", code=ResponseCode.SYSTEM_ERROR)
         # 1. 获取或创建会话 ID
         session_id = await _get_or_create_session_id(request.session_id)
 
